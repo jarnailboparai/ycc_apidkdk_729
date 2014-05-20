@@ -58,8 +58,9 @@ jQuery(document).ready(function(){
 	      	dataType:'application/json; charset=utf-8',
 	        data: postData,
 	        success: function(response){
-					
+				alert('test2');	
 	        	var argtt = response.responseText;
+				alert(argtt);
 				var arg = JSON.parse(response.responseText);
 
 				if(arg.success==1)
@@ -77,8 +78,9 @@ jQuery(document).ready(function(){
 	        error: function(response){
 				
 	        	var argtt = response.responseText;
+				alert('test1');
 				var arg = JSON.parse(response.responseText);
-
+                alert(argtt);
 				if(arg.success==1)
 				{
 					$('.appointment_form').hide();
