@@ -34,8 +34,6 @@
 
 <!--  Datapicker File Starts here -->
 
-
-
   <link rel="stylesheet" href="js/datepicker/jquery.mobile.datepicker.css" />
 
   <script src="js/datepicker/jquery.ui.datepicker.js"></script>
@@ -45,6 +43,164 @@
   <script src="js/datepicker/jquery.mobile.datepicker.js"></script>
 
 <!-- Date Picker ends here -->
+
+<!--  Timepicker File Starts here-->
+
+  <script src="js/timepicker/bootstrap-timepicker.js"></script>
+
+  <script src="js/timepicker/bootstrap-timepicker.min.js"></script>
+
+  <link rel="stylesheet" href="js/timepicker/bootstrap-timepicker.min.css" />
+
+  <link rel="stylesheet" href="js/timepicker/bootstrap-timepicker.min.js" />
+
+<!--  TimePicker ends here-->
+
+<script>
+
+jQuery( document ).bind( "mobileinit", function() {
+
+    // Make your jQuery Mobile framework configuration changes here!
+
+
+
+    jQuery.mobile.allowCrossDomainPages = true;
+
+
+
+});
+
+
+
+$(document).ajaxStart(function() {
+
+    $.mobile.loading('show');
+
+});
+
+
+
+$(document).ajaxStop(function() {
+
+    $.mobile.loading('hide');
+
+});
+
+
+
+jQuery(document).ready(function(){
+
+	
+
+	jQuery('#module-form-appointment').on('submit',function(e){
+
+		e.preventDefault();
+
+	    var postData = $(this).serialize();
+
+	    var actionUrl = document.getElementById('module-form-appointment');
+
+	 	console.log(actionUrl.action);
+
+		if($("#module-form-appointment").valid())	{
+
+	    $.ajax({
+
+	        type: 'POST',
+
+	       	url: actionUrl.action,
+
+	       	//crossDomain:true, 
+
+	      	dataType:'application/json; charset=utf-8',
+
+	        data: postData,
+
+	        success: function(response){
+
+					
+
+	        	var argtt = response.responseText;
+
+				var arg = JSON.parse(response.responseText);
+
+
+
+				if(arg.success==1)
+
+				{
+
+					$('.appointment_form').html("");
+
+					$('.appointment_form').html("<div class='no_data'>Submit Successfully</div>");
+
+				}
+
+				else
+
+				{
+
+					$('.appointment_form').html("");
+
+					$('.appointment_form').html("<div class='no_data'>Error ! Please try after sometime</div>");
+
+				}
+
+	        	//popdetialHideOther(arg);
+
+	        },
+
+	        error: function(response){
+
+				
+
+	        	var argtt = response.responseText;
+
+				var arg = JSON.parse(response.responseText);
+
+
+
+				if(arg.success==1)
+
+				{
+
+					$('.appointment_form').hide();
+
+					$('.thankyou_msg').show();
+
+				}
+
+				else
+
+				{
+
+					$('.appointment_form').html("");
+
+					$('.appointment_form').html("<div class='no_data'>Error ! Please try after sometime</div>");
+
+				}
+
+	        	
+
+	        },
+
+	    }); 
+
+	}
+
+	});
+
+
+
+	
+
+	
+
+});
+
+
+
+</script>
 
 <style type="text/css">
 
@@ -80,25 +236,23 @@ img {
 
   <!-- /header ends here --> 
 
-  <div class="squeeze_desc">
-
-	No description found
-
-  </div>
+ 
 
   <!-- Appointment page starts here -->
 
   <div class="appointment_form">
 
-  <!--<div class="thankyou_note">
+  <div class="squeeze_desc">
 
-  Thank you for Register
+	Test Appointment&nbsp;
 
-  </div>-->
+  </div>
 
   <div class="manadatory_notification">All Fields are mandatory</div>
 
- <form action="#" method="POST" id='module-form-appointment'>
+ <form action="http://112.196.20.253:8021/members/wizard/index.php?r=aweber/appointment_form" method="POST" id='module-form-appointment'>
+
+  <input type="hidden" name="email_to" value="affiliates@ycc.co.il" />
 
   <input type="text" name="name" placeholder="Name" class="name_ico"  value="" />
 
@@ -106,13 +260,13 @@ img {
 
   <input type="text" name="appointment_date" placeholder="Appointment Date" class="date-input date_ico" data-inline="false" data-role="date" value=""/>
 
-  <input type="text" name="appointment_time" placeholder="Appointment Time" class="time_ico" value="" />
+  <input type="text" name="appointment_time" placeholder="Appointment Time" class="time_ico" id="timepicker1" value="" /><i class="icon-time"></i>
 
   <input type="text" name="phone" placeholder="Phone" class="phone_ico"  value=""/>
 
   <textarea name="comments" placeholder="Comments"></textarea>
 
-  <input type="submit" value="Confirm" />
+  <input type="submit" name="submit" value="Confirm" />
 
  </form>
 
@@ -128,13 +282,23 @@ img {
 
   
 
+  <!-- thank you message -->
+
+  <div class="thankyou_msg">Thanks. Check your inbox for our email. We will be sending you the information now. If you don't see it then be sure to check your spam folder.</div>
+
   
+
+  <!-- Thankyou message ends here -->
 
 </div>
 
 <!-- /page --> 
 
+<script type="text/javascript">
 
+            $('#timepicker1').timepicker();
+
+</script>
 
 </body>
 
